@@ -10,8 +10,8 @@ TEST_CASE("Event counter", "[opalKellyAtisSepia]") {
     std::mutex lock;
     lock.lock();
     try {
-        auto count = static_cast<std::size_t>(0);
-        auto timestampThreshold = static_cast<uint64_t>(0);
+        std:size_t count = 0;
+        uint64_t timestampThreshold = 0;
         auto camera = opalKellyAtisSepia::make_camera(
             [&](sepia::Event event) -> void {
                 if (event.timestamp  > timestampThreshold) {
