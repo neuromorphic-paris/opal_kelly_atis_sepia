@@ -2,7 +2,7 @@
 
 # Opal Kelly ATIS Sepia
 
-Opal Kelly ATIS Sepia is an extension to the Sepia library to read events from an ATIS with an Opal Kelly shield.
+Opal Kelly ATIS Sepia is an extension to the [Sepia](https://github.com/neuromorphic-paris/sepia) library to read events from an ATIS with an Opal Kelly shield.
 
 # Installation
 
@@ -31,7 +31,7 @@ To test the library, run the following commands:
 
 # User guides and documentation
 
-User guides and code documentation are held in the [wiki](https://github.com/neuromorphic-paris/sepia/wiki).
+User guides and code documentation are held in the [wiki](https://github.com/neuromorphic-paris/opalKellyAtisSepia/wiki).
 
 # License
 
