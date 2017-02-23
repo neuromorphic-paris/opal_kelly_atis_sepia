@@ -43,8 +43,8 @@ solution 'opalKellyAtisSepia'
         end
 
         -- Define the include paths
-        includedirs {path.join(prefix, 'include')}
-        libdirs {path.join(prefix, 'lib')}
+        includedirs {'/usr/local/include'}
+        libdirs {'/usr/local/lib'}
 
         -- Link the dependencies
         links {'opalkellyfrontpanel'}

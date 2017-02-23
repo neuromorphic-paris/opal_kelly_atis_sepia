@@ -10,26 +10,6 @@
 /// In order to use this header, an application must link to the dynamic library opalkellyfrontpanel.
 namespace opalKellyAtisSepia {
 
-    /// Expand turns an unsigned char stream into a sepia::Event stream.
-    class Expand {
-        public:
-            Expand(int64_t timestampOffset = 0) :
-                _timestampOffset(timestampOffset)
-            {
-            }
-            Expand(const Expand&) = default;
-            Expand(Expand&&) = default;
-            Expand& operator=(const Expand&) = default;
-            Expand& operator=(Expand&&) = default;
-            virtual ~Expand() {}
-
-            /// operator() handles unsigned chars.
-
-
-        protected:
-            int64_t _timestampOffset;
-    };
-
     /// Camera represents an ATIS connected to an Opal Kelly board.
     class Camera {
         public:
@@ -277,7 +257,7 @@ namespace opalKellyAtisSepia {
                         auto firstPass = true;
                         while (fill.size() < 304) {
                             for (auto&& columnCount : _parameter->getListParameter({"columnsSelection"})) {
-                                for (auto index = static_cast<uint16_t>(0); index < static_cast<uint16_t>(columnCount->getNumber({})); ++index) {
+                                for (uint16_t index = 0; index < static_cast<uint16_t>(columnCount->getNumber({})); ++index) {
                                     if (fill.size() >= 304) {
                                         if (firstPass) {
                                             throw std::runtime_error("The columns selection sum is larger than 304");
@@ -304,7 +284,7 @@ namespace opalKellyAtisSepia {
                         auto firstPass = true;
                         while (fill.size() < 544) {
                             for (auto&& columnCount : _parameter->getListParameter({"rowsSelection"})) {
-                                for (auto index = static_cast<uint16_t>(0); index < static_cast<uint16_t>(columnCount->getNumber({})); ++index) {
+                                for (uint16_t index = 0; index < static_cast<uint16_t>(columnCount->getNumber({})); ++index) {
                                     if (fill.size() >= 544) {
                                         if (firstPass) {
                                             throw std::runtime_error("The rows selection sum is larger than 240");
@@ -330,8 +310,8 @@ namespace opalKellyAtisSepia {
                     }
 
                     // Pack the fill bits as 16 bits values for sending to the Opal Kelly
-                    auto pack = static_cast<uint16_t>(0);
-                    auto packIndex = 0;
+                    uint16_t pack = 0;
+                    std::size_t packIndex = 0;
 
                     for (auto fillIterator = fill.begin(); fillIterator != fill.end(); ++fillIterator) {
                         if (*fillIterator) {
@@ -428,7 +408,7 @@ namespace opalKellyAtisSepia {
                                 }
                             } else if (numberOfEvents > 0) {
                                 _opalKellyFrontPanel.ReadFromPipeOut(0xa0, numberOfEvents * 4, eventsData.data());
-                                for (auto eventIndex = static_cast<unsigned long>(0); eventIndex < numberOfEvents; ++eventIndex) {
+                                for (unsigned long eventIndex = 0; eventIndex < numberOfEvents; ++eventIndex) {
                                     const auto eventsDataIterator = eventsData.begin() + 4 * eventIndex;
                                     eventBytes.assign(eventsDataIterator, eventsDataIterator + 4);
                                     if (eventBytes[3] < 240) {
@@ -494,8 +474,7 @@ namespace opalKellyAtisSepia {
         std::unique_ptr<sepia::UnvalidatedParameter> unvalidatedParameter = sepia::make_unique<sepia::UnvalidatedParameter>(std::string()),
         std::size_t fifoSize = 1 << 24,
         std::string serial = std::string(),
-        std::chrono::milliseconds sleepDuration = std::chrono::milliseconds(10),
-        Expand expand = Expand()
+        std::chrono::milliseconds sleepDuration = std::chrono::milliseconds(10)
     ) {
         return sepia::make_unique<SpecialisedCamera<HandleEvent, HandleException>>(
             std::forward<HandleEvent>(handleEvent),
