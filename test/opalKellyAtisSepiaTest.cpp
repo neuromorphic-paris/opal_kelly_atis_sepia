@@ -32,6 +32,6 @@ TEST_CASE("Event counter", "[opalKellyAtisSepia]") {
             std::rethrow_exception(sharedException);
         }
     } catch (const std::runtime_error& exception) {
-        std::cout << "\e[31m" << exception.what() << "\e[0m" << std::endl;
+        FAIL(exception.what());
     }
 }

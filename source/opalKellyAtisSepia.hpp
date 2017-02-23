@@ -10,26 +10,6 @@
 /// In order to use this header, an application must link to the dynamic library opalkellyfrontpanel.
 namespace opalKellyAtisSepia {
 
-    /// Expand turns an unsigned char stream into a sepia::Event stream.
-    class Expand {
-        public:
-            Expand(int64_t timestampOffset = 0) :
-                _timestampOffset(timestampOffset)
-            {
-            }
-            Expand(const Expand&) = default;
-            Expand(Expand&&) = default;
-            Expand& operator=(const Expand&) = default;
-            Expand& operator=(Expand&&) = default;
-            virtual ~Expand() {}
-
-            /// operator() handles unsigned chars.
-
-
-        protected:
-            int64_t _timestampOffset;
-    };
-
     /// Camera represents an ATIS connected to an Opal Kelly board.
     class Camera {
         public:
@@ -494,8 +474,7 @@ namespace opalKellyAtisSepia {
         std::unique_ptr<sepia::UnvalidatedParameter> unvalidatedParameter = sepia::make_unique<sepia::UnvalidatedParameter>(std::string()),
         std::size_t fifoSize = 1 << 24,
         std::string serial = std::string(),
-        std::chrono::milliseconds sleepDuration = std::chrono::milliseconds(10),
-        Expand expand = Expand()
+        std::chrono::milliseconds sleepDuration = std::chrono::milliseconds(10)
     ) {
         return sepia::make_unique<SpecialisedCamera<HandleEvent, HandleException>>(
             std::forward<HandleEvent>(handleEvent),
