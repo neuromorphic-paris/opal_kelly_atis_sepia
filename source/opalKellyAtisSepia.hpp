@@ -155,7 +155,7 @@ namespace opalKellyAtisSepia {
 
     /// SpecialisedCamera represents a template-specialised ATIS connected to an Opal Kelly board.
     template <typename HandleEvent, typename HandleException>
-    class SpecialisedCamera : public Camera, public sepia::SpecialisedCamera<sepia::Event, HandleEvent, HandleException> {
+    class SpecialisedCamera : public Camera, public sepia::SpecialisedCamera<sepia::AtisEvent, HandleEvent, HandleException> {
         public:
             SpecialisedCamera<HandleEvent, HandleException>(
                 HandleEvent handleEvent,
@@ -165,7 +165,7 @@ namespace opalKellyAtisSepia {
                 std::string serial,
                 std::chrono::milliseconds sleepDuration
             ) :
-                sepia::SpecialisedCamera<sepia::Event, HandleEvent, HandleException>(
+                sepia::SpecialisedCamera<sepia::AtisEvent, HandleEvent, HandleException>(
                     std::forward<HandleEvent>(handleEvent),
                     std::forward<HandleException>(handleException),
                     fifoSize,
@@ -393,7 +393,7 @@ namespace opalKellyAtisSepia {
                 // Start the reading loop
                 _acquisitionLoop = std::thread([this, serial]() -> void {
                     try {
-                        auto event = sepia::Event{};
+                        auto event = sepia::AtisEvent{};
                         auto eventsData = std::vector<unsigned char>((1 << 24) * 4);
                         auto eventBytes = std::vector<unsigned char>(4);
                         while (_acquisitionRunning.load(std::memory_order_relaxed)) {
