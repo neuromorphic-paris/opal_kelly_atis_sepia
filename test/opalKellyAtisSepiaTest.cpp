@@ -13,10 +13,10 @@ TEST_CASE("Event counter", "[opalKellyAtisSepia]") {
         std:size_t count = 0;
         uint64_t timestampThreshold = 0;
         auto camera = opalKellyAtisSepia::make_camera(
-            [&](sepia::Event event) -> void {
-                if (event.timestamp  > timestampThreshold) {
+            [&](sepia::AtisEvent atisEvent) -> void {
+                if (atisEvent.timestamp  > timestampThreshold) {
                     std::cout << count << " events / second" << std::endl;
-                    timestampThreshold = event.timestamp + 1e6;
+                    timestampThreshold = atisEvent.timestamp + 1e6;
                     count = 0;
                 }
                 ++count;
