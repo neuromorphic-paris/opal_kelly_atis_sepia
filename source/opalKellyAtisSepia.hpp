@@ -1,7 +1,6 @@
 #pragma once
 
-#include "sepia.hpp"
-
+#include <sepia.hpp>
 #include <opalkellyfrontpanel.h>
 
 #include <algorithm>
@@ -394,11 +393,11 @@ namespace opalKellyAtisSepia {
                 _acquisitionLoop = std::thread([this, serial]() -> void {
                     try {
                         auto event = sepia::AtisEvent{};
-                        auto eventsData = std::vector<unsigned char>((1 << 24) * 4);
-                        auto eventBytes = std::vector<unsigned char>(4);
+                        auto eventsData = std::vector<uint8_t>((1 << 24) * 4);
+                        auto eventBytes = std::vector<uint8_t>(4);
                         while (_acquisitionRunning.load(std::memory_order_relaxed)) {
                             _opalKellyFrontPanel.UpdateWireOuts();
-                            unsigned long numberOfEvents = (_opalKellyFrontPanel.GetWireOutValue(0x21) << 21) + (_opalKellyFrontPanel.GetWireOutValue(0x20) << 5);
+                            const auto numberOfEvents = (_opalKellyFrontPanel.GetWireOutValue(0x21) << 21) + (_opalKellyFrontPanel.GetWireOutValue(0x20) << 5);
                             if (numberOfEvents > 1 << 24) {
                                 const auto serials = availableSerials();
                                 if (serials.find(serial) == serials.end()) {
