@@ -230,8 +230,8 @@ namespace opalKellyAtisSepia {
                 _opalKellyFrontPanel.UpdateWireIns();
 
                 // Initialise the digital-to-analog converters (biases setup)
-                for (auto&& categoryPair : configuration()) {
-                    for (auto&& settingPair : categoryPair.second) {
+                for (const auto& categoryPair : configuration()) {
+                    for (const auto& settingPair : categoryPair.second) {
                         _opalKellyFrontPanel.SetWireInValue(0x01,
                             categoryPair.first == "static" ?
                                 settingPair.second.at("value")
@@ -255,7 +255,7 @@ namespace opalKellyAtisSepia {
                         auto state = _parameter->getBoolean({"selectFirstColumn"});
                         auto firstPass = true;
                         while (fill.size() < 304) {
-                            for (auto&& columnCount : _parameter->getListParameter({"columnsSelection"})) {
+                            for (const auto& columnCount : _parameter->getListParameter({"columnsSelection"})) {
                                 for (uint16_t index = 0; index < static_cast<uint16_t>(columnCount->getNumber({})); ++index) {
                                     if (fill.size() >= 304) {
                                         if (firstPass) {
@@ -282,7 +282,7 @@ namespace opalKellyAtisSepia {
                         auto state = _parameter->getBoolean({"selectFirstRow"});
                         auto firstPass = true;
                         while (fill.size() < 544) {
-                            for (auto&& columnCount : _parameter->getListParameter({"rowsSelection"})) {
+                            for auto columnCount : _parameter->getListParameter({"rowsSelection"})) {
                                 for (uint16_t index = 0; index < static_cast<uint16_t>(columnCount->getNumber({})); ++index) {
                                     if (fill.size() >= 544) {
                                         if (firstPass) {
