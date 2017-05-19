@@ -16,7 +16,7 @@ cd sepia && premake4 install && cd .. && rm -rf sepia
 
 ## Install
 
-To install the source, go to the *opalKellyAtisSepia* directory and run `premake4 install`.
+To install the source, go to the *opalKellyAtisSepia* directory and run `premake4 install`. The source is copied to */usr/local/include*.
 The firmwares are installed in */usr/local/share* and the Opal Kelly Front Panel files in */usr/local/include* and */usr/local/lib*. You need to be connected to the Vision Institute local network for this step to work, as it implies downloading close-source resources.
 
 Under Linux, run `sudo ldconfig` after the installation.
