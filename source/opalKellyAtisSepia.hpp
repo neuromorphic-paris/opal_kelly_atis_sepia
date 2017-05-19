@@ -44,33 +44,33 @@ namespace opalKellyAtisSepia {
                     })),
                     "changeDetection",             sepia::make_unique<sepia::ObjectParameter>(
                         "resetSwitchBulkPotential",     sepia::make_unique<sepia::CharParameter>(207),
-                        "photoreceptorFeedback",        sepia::make_unique<sepia::CharParameter>(243),
-                        "refractoryPeriod",             sepia::make_unique<sepia::CharParameter>(216),
-                        "follower",                     sepia::make_unique<sepia::CharParameter>(239),
-                        "eventSourceAmplifier",         sepia::make_unique<sepia::CharParameter>( 42),
-                        "onEventThreshold",             sepia::make_unique<sepia::CharParameter>( 51),
-                        "offEventThreshold",            sepia::make_unique<sepia::CharParameter>( 39),
+                        "photoreceptorFeedback",        sepia::make_unique<sepia::CharParameter>(216),
+                        "refractoryPeriod",             sepia::make_unique<sepia::CharParameter>(220),
+                        "follower",                     sepia::make_unique<sepia::CharParameter>(235),
+                        "eventSourceAmplifier",         sepia::make_unique<sepia::CharParameter>( 38),
+                        "onEventThreshold",             sepia::make_unique<sepia::CharParameter>( 34),
+                        "offEventThreshold",            sepia::make_unique<sepia::CharParameter>( 48),
                         "offEventInverter",             sepia::make_unique<sepia::CharParameter>( 61),
-                        "cascodePhotoreceptorFeedback", sepia::make_unique<sepia::CharParameter>( 92)
+                        "cascodePhotoreceptorFeedback", sepia::make_unique<sepia::CharParameter>(154)
                     ),
                     "exposureMeasurement",         sepia::make_unique<sepia::ObjectParameter>(
-                        "comparatorTail",        sepia::make_unique<sepia::CharParameter>( 54),
-                        "comparatorHysteresis",  sepia::make_unique<sepia::CharParameter>( 47),
-                        "comparatorOutputStage", sepia::make_unique<sepia::CharParameter>( 57),
-                        "upperThreshold",        sepia::make_unique<sepia::CharParameter>(243),
-                        "lowerThreshold",        sepia::make_unique<sepia::CharParameter>(235)
+                        "comparatorTail",        sepia::make_unique<sepia::CharParameter>( 40),
+                        "comparatorHysteresis",  sepia::make_unique<sepia::CharParameter>( 35),
+                        "comparatorOutputStage", sepia::make_unique<sepia::CharParameter>( 51),
+                        "upperThreshold",        sepia::make_unique<sepia::CharParameter>(247),
+                        "lowerThreshold",        sepia::make_unique<sepia::CharParameter>(231)
                     ),
                     "pullup",                      sepia::make_unique<sepia::ObjectParameter>(
-                        "exposureMeasurementAbscissaRequest", sepia::make_unique<sepia::CharParameter>(124),
+                        "exposureMeasurementAbscissaRequest", sepia::make_unique<sepia::CharParameter>(127),
                         "exposureMeasurementOrdinateRequest", sepia::make_unique<sepia::CharParameter>(155),
                         "changeDetectionAbscissaRequest",     sepia::make_unique<sepia::CharParameter>(151),
-                        "changeDetectionOrdinateRequest",     sepia::make_unique<sepia::CharParameter>(117),
+                        "changeDetectionOrdinateRequest",     sepia::make_unique<sepia::CharParameter>(120),
                         "abscissaAcknoledge",                 sepia::make_unique<sepia::CharParameter>(162),
                         "abscissaEncoder",                    sepia::make_unique<sepia::CharParameter>(162),
                         "ordinateEncoder",                    sepia::make_unique<sepia::CharParameter>(120)
                     ),
                     "control",                     sepia::make_unique<sepia::ObjectParameter>(
-                        "exposureMeasurementTimeout",           sepia::make_unique<sepia::CharParameter>( 49),
+                        "exposureMeasurementTimeout",           sepia::make_unique<sepia::CharParameter>( 42),
                         "sequentialExposureMeasurementTimeout", sepia::make_unique<sepia::CharParameter>( 45),
                         "abscissaAcknoledgeTimeout",            sepia::make_unique<sepia::CharParameter>( 56),
                         "latchCellScanPulldown",                sepia::make_unique<sepia::CharParameter>(134),
