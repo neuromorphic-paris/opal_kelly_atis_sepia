@@ -6,7 +6,7 @@ solution 'opalKellyAtisSepia'
         trigger = "install",
         description = "Install the library",
         execute = function()
-            os.copyfile('source/sepia.hpp', '/usr/local/include/opalKellyAtisSepia.hpp')
+            os.copyfile('source/opalKellyAtisSepia.hpp', '/usr/local/include/opalKellyAtisSepia.hpp')
             print(string.char(27) .. '[32mOpal Kelly ATIS Sepia library installed.' .. string.char(27) .. '[0m')
             os.exit()
         end
