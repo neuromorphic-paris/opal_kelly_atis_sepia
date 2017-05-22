@@ -12,7 +12,8 @@ namespace opalKellyAtisSepia {
     /// Camera represents an ATIS connected to an Opal Kelly board.
     class Camera {
         public:
-            /// availableSerials returns a set of ports in which an Opal Kelly ATIS is connected.
+
+            /// availableSerials returns the connected Opal Kelly ATIS cameras' serials.
             static std::unordered_set<std::string> availableSerials() {
                 auto opalKellyFrontPanel = OpalKellyLegacy::okCFrontPanel();
                 auto serials = std::unordered_set<std::string>();
@@ -180,8 +181,8 @@ namespace opalKellyAtisSepia {
                     _parameter->load(unvalidatedParameter->parameter());
                 }
 
-                // Check wether the serial exists and is an ATIS camera
-                // Default to the first serial found if an empty string is given as serial
+                // check wether the serial exists and is an ATIS camera
+                // cefault to the first serial found if an empty string is given as serial
                 {
                     const auto serials = availableSerials();
                     if (serials.empty()) {
@@ -195,7 +196,7 @@ namespace opalKellyAtisSepia {
                     }
                 }
 
-                // Open the connection to the ATIS
+                // open the connection to the ATIS
                 {
                     const auto serialError = _opalKellyFrontPanel.OpenBySerial(serial);
                     if (serialError != okCFrontPanel::NoError) {
@@ -203,7 +204,7 @@ namespace opalKellyAtisSepia {
                     }
                 }
 
-                // Load the defaut PLL configuration
+                // load the defaut PLL configuration
                 {
                     const auto pllError = _opalKellyFrontPanel.LoadDefaultPLLConfiguration();
                     if (pllError != okCFrontPanel::NoError) {
@@ -211,7 +212,7 @@ namespace opalKellyAtisSepia {
                     }
                 }
 
-                // Load the firmware
+                // load the firmware
                 {
                     std::string firmwareFilename = _parameter->getString({"firmware"});
                     std::ifstream firmwareFile(firmwareFilename);
@@ -225,11 +226,11 @@ namespace opalKellyAtisSepia {
                     }
                 }
 
-                // Open the biases and selection settings
+                // open the biases and selection settings
                 _opalKellyFrontPanel.SetWireInValue(0x00, 1 << 5, 1 << 5);
                 _opalKellyFrontPanel.UpdateWireIns();
 
-                // Initialise the digital-to-analog converters (biases setup)
+                // initialise the digital-to-analog converters (biases setup)
                 for (const auto& categoryPair : configuration()) {
                     for (const auto& settingPair : categoryPair.second) {
                         _opalKellyFrontPanel.SetWireInValue(0x01,
@@ -245,10 +246,10 @@ namespace opalKellyAtisSepia {
                 }
                 _opalKellyFrontPanel.ActivateTriggerIn(0x40, 6);
 
-                // Load the region of interest parameters
+                // load the region of interest parameters
                 if (_parameter->getListParameter({"columnsSelection"}).size() > 0 || _parameter->getListParameter({"rowsSelection"}).size() > 0) {
 
-                    // Compute the columns fill bits
+                    // compute the columns fill bits
                     auto fill = std::vector<bool>();
                     fill.reserve(544);
                     if (_parameter->getListParameter({"columnsSelection"}).size() > 0) {
@@ -277,7 +278,7 @@ namespace opalKellyAtisSepia {
                         fill = std::vector<bool>(304);
                     }
 
-                    // Compute the rows fill bits
+                    // compute the rows fill bits
                     if (_parameter->getListParameter({"rowsSelection"}).size() > 0) {
                         auto state = _parameter->getBoolean({"selectFirstRow"});
                         auto firstPass = true;
@@ -308,7 +309,7 @@ namespace opalKellyAtisSepia {
                         fill.insert(fill.end(), fillRows.begin(), fillRows.end());
                     }
 
-                    // Pack the fill bits as 16 bits values for sending to the Opal Kelly
+                    // pack the fill bits as 16 bits values for sending to the Opal Kelly
                     uint16_t pack = 0;
                     std::size_t packIndex = 0;
 
@@ -331,11 +332,11 @@ namespace opalKellyAtisSepia {
                     }
                     _opalKellyFrontPanel.ActivateTriggerIn(0x40, 4);
 
-                    // Define wether the pixels outside the selection are disabled, or wether the ones inside are
+                    // define wether the pixels outside the selection are disabled, or wether the ones inside are
                     _opalKellyFrontPanel.SetWireInValue(0x00, _parameter->getBoolean({"selectionIsRegionOfInterest"}) ? 1 << 9 : 0, 1 << 9);
                     _opalKellyFrontPanel.UpdateWireIns();
 
-                    // Define which part of the pixels the selection is applied to
+                    // define which part of the pixels the selection is applied to
                     if (
                         _parameter->getString({"applySelectionTo"}) == "changeDetection"
                         || _parameter->getString({"applySelectionTo"}) == "changeDetectionAndExposureMeasurement"
@@ -352,11 +353,11 @@ namespace opalKellyAtisSepia {
                     }
                 }
 
-                // Close the biases and selection settings
+                // close the biases and selection settings
                 _opalKellyFrontPanel.SetWireInValue(0x00, 0, 1 << 5);
                 _opalKellyFrontPanel.UpdateWireIns();
 
-                // Load the exposure measurement trigger
+                // load the exposure measurement trigger
                 if (_parameter->getString({"exposureMeasurementTrigger"}) == "changeDetection") {
                     _opalKellyFrontPanel.SetWireInValue(0x00, 1 << 0, 1 << 0);
                     _opalKellyFrontPanel.UpdateWireIns();
@@ -373,23 +374,23 @@ namespace opalKellyAtisSepia {
                     }
                 }
 
-                // Reset the Atis FIFO
+                // reset the Atis FIFO
                 _opalKellyFrontPanel.ActivateTriggerIn(0x40, 7);
 
-                // Reset the handlers
+                // reset the handlers
                 _opalKellyFrontPanel.ActivateTriggerIn(0x40, 2);
 
-                // Enable periodic fake events
+                // enable periodic fake events
                 if (_parameter->getBoolean({"sendFakeEventPeriodically"})) {
                     _opalKellyFrontPanel.SetWireInValue(0x00, 1 << 12, 1 << 12);
                     _opalKellyFrontPanel.UpdateWireIns();
                 }
 
-                // Start the FPGA events reading
+                // start the FPGA events reading
                 _opalKellyFrontPanel.SetWireInValue(0x00, 1 << 10, 1 << 10);
                 _opalKellyFrontPanel.UpdateWireIns();
 
-                // Start the reading loop
+                // start the reading loop
                 _acquisitionLoop = std::thread([this, serial]() -> void {
                     try {
                         auto event = sepia::AtisEvent{};
