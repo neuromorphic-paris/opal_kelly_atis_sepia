@@ -33,7 +33,7 @@ else
     end
 
     os.mkdir('/usr/local/share/opalKellyAtisSepia')
-    if download('/usr/local/share/opalKellyAtisSepia', 'atis.1.2.0.bit', 'atis.1.2.0.bit', false) ~= 0 then
+    if download('/usr/local/share/opalKellyAtisSepia', 'atis.1.1.1.bit', 'atis.1.1.1.bit', false) ~= 0 then
         print(
             string.char(27)
             .. '[31mFirmwares download failed. Make sure that you are connected to the Vision Institute local network.'
