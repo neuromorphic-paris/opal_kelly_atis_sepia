@@ -395,6 +395,7 @@ namespace opalKellyAtisSepia {
                     try {
                         auto event = sepia::AtisEvent{};
                         auto eventsData = std::vector<uint8_t>((1 << 24) * 4);
+                        auto eventBytes = std::vector<uint8_t>(4);
                         while (_acquisitionRunning.load(std::memory_order_relaxed)) {
                             _opalKellyFrontPanel.UpdateWireOuts();
                             const auto numberOfEvents = (_opalKellyFrontPanel.GetWireOutValue(0x21) << 21) + (_opalKellyFrontPanel.GetWireOutValue(0x20) << 5);
@@ -408,25 +409,26 @@ namespace opalKellyAtisSepia {
                             } else if (numberOfEvents > 0) {
                                 _opalKellyFrontPanel.ReadFromPipeOut(0xa0, numberOfEvents * 4, eventsData.data());
                                 for (unsigned long eventIndex = 0; eventIndex < numberOfEvents; ++eventIndex) {
-                                    const auto eventByteIterator = std::next(eventsData.begin(), 4 * eventIndex);
-                                    if (*std::next(eventByteIterator, 3) == 0x80) {
-                                        _timestampOffset = (
-                                            static_cast<uint64_t>(*eventByteIterator)
-                                            | (static_cast<uint64_t>(*std::next(eventByteIterator, 1)) << 8)
-                                            | (static_cast<uint64_t>(*std::next(eventByteIterator, 2)) << 16)
-                                        ) * 0x800;
-                                    } else {
-                                        event.x = (static_cast<uint16_t>(*std::next(eventByteIterator, 2) & 0x1) << 8) + *std::next(eventByteIterator, 1);
-                                        event.y = 239 - *eventByteIterator;
-                                        event.timestamp = _timestampOffset + (
-                                            (static_cast<uint64_t>((*std::next(eventByteIterator, 3) & 0xf)) << 7)
-                                            | (*std::next(eventByteIterator, 2) >> 1)
-                                        );
-                                        event.polarity = ((*std::next(eventByteIterator, 3) & 0b10000) >> 4) == 1;
-                                        event.isThresholdCrossing = ((*std::next(eventByteIterator, 3) & 0b100000) >> 5) == 1;
-                                        if (!this->push(event)) {
-                                            throw std::runtime_error("Computer's FIFO overflow");
+                                    const auto eventsDataIterator = eventsData.begin() + 4 * eventIndex;
+                                    eventBytes.assign(eventsDataIterator, eventsDataIterator + 4);
+                                    if (eventBytes[3] < 240) {
+                                        event.y = static_cast<uint16_t>(eventBytes[3]);
+                                        event.x = ((static_cast<uint16_t>(eventBytes[1] & 0x20) << 3) | eventBytes[2]);
+                                        if (event.x < 304) {
+                                            event.timestamp = _timestampOffset + ((static_cast<int64_t>(eventBytes[1] & 0x1f) << 8) | eventBytes[0]);
+                                            event.isThresholdCrossing = (((eventBytes[1] & 0x40) >> 6) == 0x01);
+                                            event.polarity = (((eventBytes[1] & 0x80) >> 7) == 0x01);
+                                            event.y = 239 - event.y;
+                                            if (!this->push(event)) {
+                                                throw std::runtime_error("Computer's FIFO overflow");
+                                            }
                                         }
+                                    } else if (
+                                        eventBytes[3] == 240
+                                        && ((static_cast<uint16_t>(eventBytes[1] & 0x20) << 3) | eventBytes[2]) == 305
+                                        && ((static_cast<int64_t>(eventBytes[1] & 0x1f) << 8) | eventBytes[0]) == 0x1555
+                                    ) {
+                                        _timestampOffset += 0x2000;
                                     }
                                 }
                             } else {
