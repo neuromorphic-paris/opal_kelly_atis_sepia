@@ -26,7 +26,7 @@ namespace opalKellyAtisSepia {
             /// defaultParameter returns the default parameter used by the Opal Kelly ATIS.
             static std::unique_ptr<sepia::Parameter> defaultParameter() {
                 return sepia::make_unique<sepia::ObjectParameter>(
-                    "firmware",                    sepia::make_unique<sepia::StringParameter>("/usr/local/share/opalKellyAtisSepia/atis.1.2.0.bit"),
+                    "firmware",                    sepia::make_unique<sepia::StringParameter>("/usr/local/share/opalKellyAtisSepia/atis.1.1.1.bit"),
                     "exposureMeasurementTrigger",  sepia::make_unique<sepia::EnumParameter>("changeDetection", std::unordered_set<std::string>({
                         "changeDetection",
                         "sequential",
@@ -49,8 +49,8 @@ namespace opalKellyAtisSepia {
                         "refractoryPeriod",             sepia::make_unique<sepia::CharParameter>(220),
                         "follower",                     sepia::make_unique<sepia::CharParameter>(235),
                         "eventSourceAmplifier",         sepia::make_unique<sepia::CharParameter>( 38),
-                        "onEventThreshold",             sepia::make_unique<sepia::CharParameter>( 34),
-                        "offEventThreshold",            sepia::make_unique<sepia::CharParameter>( 48),
+                        "onEventThreshold",             sepia::make_unique<sepia::CharParameter>( 48),
+                        "offEventThreshold",            sepia::make_unique<sepia::CharParameter>( 34),
                         "offEventInverter",             sepia::make_unique<sepia::CharParameter>( 61),
                         "cascodePhotoreceptorFeedback", sepia::make_unique<sepia::CharParameter>(154)
                     ),
@@ -182,7 +182,7 @@ namespace opalKellyAtisSepia {
                 }
 
                 // check wether the serial exists and is an ATIS camera
-                // cefault to the first serial found if an empty string is given as serial
+                // default to the first serial found if an empty string is given as serial
                 {
                     const auto serials = availableSerials();
                     if (serials.empty()) {
