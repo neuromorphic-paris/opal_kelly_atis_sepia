@@ -22,7 +22,7 @@ else
                     .. ' wget -q -P '
                     .. prefix
                     .. ' '
-                    .. '134.157.180.144:3002/opalKellyFrontPanel/'
+                    .. '134.157.180.96/opalKellyAtisSepia/opalKellyFrontPanel/'
                     .. sourceName
                 )
                 if result == 0 and targetName ~= sourceName then
@@ -33,7 +33,7 @@ else
                 return os.execute(
                     (sudo and 'sudo' or '')
                     .. ' curl -s "'
-                    .. '134.157.180.144:3002/opalKellyFrontPanel/'
+                    .. '134.157.180.96/opalKellyAtisSepia/opalKellyFrontPanel/'
                     .. sourceName
                     .. '" -o "'
                     .. path.join(prefix, targetName)
