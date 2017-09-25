@@ -11,7 +11,7 @@ else
                     .. ' wget -q -P '
                     .. prefix
                     .. ' '
-                    .. '134.157.180.144:3002/firmwares/'
+                    .. '134.157.180.96/opalKellyAtisSepia/firmwares/'
                     .. sourceName
                 )
                 if result == 0 and targetName ~= sourceName then
