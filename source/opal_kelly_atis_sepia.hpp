@@ -133,8 +133,7 @@ namespace opal_kelly_atis_sepia {
         static std::
             unordered_map<std::string, std::unordered_map<std::string, std::unordered_map<std::string, uint32_t>>>
             configuration() {
-            return std::
-                unordered_map<std::string, std::unordered_map<std::string, std::unordered_map<std::string, uint32_t>>>({
+            return {
                     {"change_detection",
                      {
                          {"reset_switch_bulk_potential", {{"address", 0x02}, {"tension", 0x5900}}},
@@ -179,7 +178,7 @@ namespace opal_kelly_atis_sepia {
                          {"test_event", {{"address", 0x01}, {"tension", 0x7900}, {"value", 0}}},
                          {"reset_photodiodes", {{"address", 0x1c}, {"tension", 0x00}, {"value", 3}}},
                      }},
-                });
+                };
         }
 
         camera() {}
