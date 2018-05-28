@@ -10,7 +10,8 @@ Within a Git repository, run the commands:
 mkdir -p third_party
 cd third_party
 git submodule add https://github.com/neuromorphic-paris/opal_kelly_atis_sepia.git
-cd ..
+git submodule update --init --recursive
+cd opal_kelly_atis_sepia
 sh install.sh
 ```
 
