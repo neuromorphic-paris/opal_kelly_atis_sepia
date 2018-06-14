@@ -28,7 +28,7 @@ namespace opal_kelly_atis_sepia {
             return sepia::make_unique<sepia::object_parameter>(
                 "firmware",
                 sepia::make_unique<sepia::string_parameter>(
-                    sepia::join({sepia::dirname(sepia::dirname(__FILE__)), "resources", "atis.1.1.1.bit"})),
+                    sepia::join({sepia::dirname(DIRNAME), "resources", "atis.1.1.1.bit"})),
                 "exposure_measurement_trigger",
                 sepia::make_unique<sepia::enum_parameter>(
                     "change_detection",

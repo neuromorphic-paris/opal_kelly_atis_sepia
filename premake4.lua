@@ -10,6 +10,7 @@ solution 'opal_kelly_atis_sepia'
         buildoptions {'-std=c++11'}
         linkoptions {'-std=c++11'}
         links {'pthread', 'opalkellyfrontpanel'}
+        defines {'COMPILER_WORKING_DIRECTORY="' .. project().location .. '"'}
         configuration 'release'
             targetdir 'build/release'
             defines {'NDEBUG'}
