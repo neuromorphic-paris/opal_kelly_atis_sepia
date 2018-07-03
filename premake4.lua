@@ -7,9 +7,7 @@ solution 'opal_kelly_atis_sepia'
         location 'build'
         files {'source/*.hpp', 'test/*.cpp'}
         libdirs {'resources'}
-        buildoptions {'-std=c++11'}
-        linkoptions {'-std=c++11'}
-        links {'pthread', 'opalkellyfrontpanel'}
+        links {'opalkellyfrontpanel'}
         defines {'SEPIA_COMPILER_WORKING_DIRECTORY="' .. project().location .. '"'}
         configuration 'release'
             targetdir 'build/release'
@@ -19,6 +17,13 @@ solution 'opal_kelly_atis_sepia'
             targetdir 'build/debug'
             defines {'DEBUG'}
             flags {'Symbols'}
+        configuration 'linux'
+            links {'pthread'}
+            buildoptions {'-std=c++11'}
+            linkoptions {'-std=c++11'}
+        configuration 'macosx'
+            buildoptions {'-std=c++11'}
+            linkoptions {'-std=c++11'}
         for index, name in ipairs(configurations()) do
             configuration {'macosx', name}
                 postbuildcommands {
