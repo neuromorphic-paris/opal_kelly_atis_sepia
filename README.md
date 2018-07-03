@@ -34,7 +34,7 @@ for index, name in ipairs(configurations()) do
     configuration {'macosx', name}
         postbuildcommands {
             'install_name_tool -change libopalkellyfrontpanel.dylib '
-            .. path.getabsolute('resources/libopalkellyfrontpanel.dylib')
+            .. path.getabsolute('third_party/opal_kelly_atis_sepia/resources/libopalkellyfrontpanel.dylib')
             .. ' '
             .. path.join(path.join(project().location, name), project().name)}
 end
