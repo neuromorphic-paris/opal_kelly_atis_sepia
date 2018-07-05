@@ -181,7 +181,7 @@ namespace opal_kelly_atis_sepia {
             };
         }
 
-        camera() {}
+        camera() = default;
         camera(const camera&) = delete;
         camera(camera&&) = default;
         camera& operator=(const camera&) = delete;
