@@ -3,22 +3,21 @@
 #include "../resources/opalkellyfrontpanel.h"
 #include "../third_party/sepia/source/sepia.hpp"
 #include <algorithm>
-
 #include <iostream>
 
 /// opal_kelly_atis_sepia specialises sepia for the Opal Kelly ATIS.
 /// In order to use this header, an application must link to the dynamic library opalkellyfrontpanel.
 namespace opal_kelly_atis_sepia {
-
     /// camera represents an ATIS connected to an Opal Kelly board.
     class camera {
         public:
         /// available_serials returns the connected Opal Kelly ATIS cameras' serials.
-        static std::unordered_set<std::string> available_serials() {
+        static std::vector<std::string> available_serials() {
             OpalKellyLegacy::okCFrontPanel opal_kelly_front_panel;
-            std::unordered_set<std::string> serials;
+            std::vector<std::string> serials;
+            serials.reserve(opal_kelly_front_panel.GetDeviceCount());
             for (auto device_index = 0; device_index < opal_kelly_front_panel.GetDeviceCount(); ++device_index) {
-                serials.insert(opal_kelly_front_panel.GetDeviceListSerial(device_index));
+                serials.push_back(opal_kelly_front_panel.GetDeviceListSerial(device_index));
             }
             return serials;
         }
@@ -224,7 +223,7 @@ namespace opal_kelly_atis_sepia {
                 } else {
                     if (serial.empty()) {
                         serial = *serials.begin();
-                    } else if (serials.find(serial) == serials.end()) {
+                    } else if (std::find(serials.begin(), serials.end(), serial) == serials.end()) {
                         throw sepia::no_device_connected("Opal Kelly ATIS");
                     }
                 }

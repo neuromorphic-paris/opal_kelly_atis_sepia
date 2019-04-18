@@ -1,4 +1,4 @@
-![opalKellyAtisSepia](banner.png "The Opal Kelly ATIS Sepia banner")
+![banner](banner.png)
 
 Opal Kelly ATIS Sepia is an extension to the [Sepia](https://github.com/neuromorphic-paris/sepia) library to read events from an ATIS with an Opal Kelly shield.
 
