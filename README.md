@@ -17,7 +17,7 @@ sh install.sh
 
 The last command requires a direct connection to the Vision Institute local network, since it downloads non-free libraries.
 
-An application using Opal Kelly ATIS must include *third_party/opal_kelly_atis_sepia/resources* to its libraries directory search path, and link to the library opalkellyfrontpanel.
+An application using Opal Kelly ATIS must link to the library opalkellyfrontpanel.
 
 On __Linux__, an application using Opal Kelly ATIS Sepia must link to pthread.
 
